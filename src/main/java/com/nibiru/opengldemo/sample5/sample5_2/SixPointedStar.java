@@ -1,11 +1,9 @@
-package com.nibiru.opengldemo.sample5.sample5_1;
+package com.nibiru.opengldemo.sample5.sample5_2;
 
 import android.opengl.GLES30;
 import android.opengl.Matrix;
-
 import com.nibiru.opengldemo.utils.MatrixState;
 import com.nibiru.opengldemo.utils.ShaderUtil;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;

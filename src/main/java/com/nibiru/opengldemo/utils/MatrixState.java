@@ -1,4 +1,4 @@
-package com.nibiru.opengldemo.sample5.sample5_1;
+package com.nibiru.opengldemo.utils;
 
 import android.opengl.Matrix;
 
@@ -60,6 +60,18 @@ public class MatrixState {
                 near, far            //near面、far面与视点的距离
         );
 
+    }
+
+    //设置透视投影
+    public static void setProjectFrustum(
+            float left, // near面的left
+            float right, // near面的right
+            float bottom, // near面的bottom
+            float top, // near面的top
+            float near, // near面与视点的距离
+            float far // far面与视点的距离
+    ) {
+        Matrix.frustumM(mProjMatrix, 0, left, right, bottom, top, near, far);
     }
 
     /**
