@@ -7,6 +7,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class Sample5_3_Activity extends Activity {
+
     private MySurfaceView mMySurfaceView;
 
     @Override

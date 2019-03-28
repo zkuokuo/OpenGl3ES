@@ -48,9 +48,25 @@ public class MatrixState {
         stackTop--;//栈顶索引减1
     }
 
-    //沿X、Y、Z轴方向进行平移变换的方法
+    /**
+     * 沿X、Y、Z轴方向进行平移变换的方法
+     */
     public static void translate(float x, float y, float z) {
         Matrix.translateM(currMatrix, 0, x, y, z);
+    }
+
+    /**
+     * 沿x,y,z轴进行旋转变换的方法
+     */
+    public static void totate(float angle, float x, float y, float z) {
+        Matrix.rotateM(currMatrix, 0, angle, x, y, z);
+    }
+
+    /**
+     * 沿x,y,z轴进行缩变换的方法
+     */
+    public static void scale(float x,float y,float z){
+        Matrix.scaleM(currMatrix,0,x,y,z);
     }
 
     /**

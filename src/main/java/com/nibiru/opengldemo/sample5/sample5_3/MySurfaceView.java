@@ -81,7 +81,9 @@ public class MySurfaceView extends GLSurfaceView {
 
             //绘制变换后的立方体
             MatrixState.pushMatrix();//保护现场
-            MatrixState.translate(1f, 0, 0);//沿x方向平移3.5
+            MatrixState.translate(1f, 0, 0);//沿x方向平移1
+            MatrixState.totate(60,0,0,1); //沿着z轴进行旋转60度
+            MatrixState.scale(0.4f,2f,0.6f);//x,y,z 3个方向按各自的缩放因子进行缩放
             mCube.drawSelf();//绘制立方体
             MatrixState.popMatrix();//恢复现场
         }
