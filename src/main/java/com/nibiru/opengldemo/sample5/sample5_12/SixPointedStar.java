@@ -2,13 +2,16 @@ package com.nibiru.opengldemo.sample5.sample5_12;
 
 import android.opengl.GLES30;
 import android.opengl.Matrix;
+
 import com.nibiru.opengldemo.utils.MatrixState;
 import com.nibiru.opengldemo.utils.ShaderUtil;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.nibiru.opengldemo.utils.ShaderUtil.createProgram;
 
 /**
@@ -32,11 +35,11 @@ public class SixPointedStar {
     float yAngle = 0;//绕y轴旋转的角度
     float xAngle = 0;//绕x轴旋转的角度
     final float UNIT_SIZE = 1;
-    final float UNIT_COLOR=1;
-    float color[]=new float[3];//五角星的颜色
+    final float UNIT_COLOR = 1;
+    float color[] = new float[3];//五角星的颜色
 
-    public SixPointedStar(MySurfaceView mv, float r, float R, float z,float[] color) {
-        this.color=color;//五角星的颜色
+    public SixPointedStar(MySurfaceView mv, float r, float R, float z, float[] color) {
+        this.color = color;//五角星的颜色
         //调用初始化顶点数据的initVertexData方法
         initVertexData(R, r, z);
         //调用初始化着色器的intShader方法
@@ -45,6 +48,7 @@ public class SixPointedStar {
 
     /**
      * 初始化顶点数据的initVertexData方法
+     *
      * @param R 表示中心点到凹顶点的距离
      * @param r 表示中心点到6个凸顶点的距离
      * @param z 表示z轴距离
@@ -137,7 +141,7 @@ public class SixPointedStar {
                 );
 
         //将顶点颜色数据送入渲染管线
-        GLES30.glVertexAttrib4f(maColorHandle, color[0],color[1],color[2], 1.0f);
+        GLES30.glVertexAttrib4f(maColorHandle, color[0], color[1], color[2], 1.0f);
         //启用顶点位置数据数组
         GLES30.glEnableVertexAttribArray(maPositionHandle);
         //绘制六角星
