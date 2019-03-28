@@ -65,8 +65,8 @@ public class MatrixState {
     /**
      * 沿x,y,z轴进行缩变换的方法
      */
-    public static void scale(float x,float y,float z){
-        Matrix.scaleM(currMatrix,0,x,y,z);
+    public static void scale(float x, float y, float z) {
+        Matrix.scaleM(currMatrix, 0, x, y, z);
     }
 
     /**
