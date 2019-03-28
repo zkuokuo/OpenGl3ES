@@ -1,7 +1,6 @@
-package com.nibiru.opengldemo.sample5.sample5_9;
+package com.nibiru.opengldemo.sample5.sample5_11;
 
 import android.opengl.GLES30;
-
 import com.nibiru.opengldemo.utils.Constant;
 import com.nibiru.opengldemo.utils.MatrixState;
 import com.nibiru.opengldemo.utils.ShaderUtil;
@@ -21,8 +20,6 @@ public class Circle {
 
     int mProgram;//自定义渲染管线着色器程序id
     int muMVPMatrixHandle;//总变换矩阵引用
-    int maPositionHandle; //顶点位置属性引用
-    int maColorHandle; //顶点颜色属性引用
     String mVertexShader;//顶点着色器代码脚本
     String mFragmentShader;//片元着色器代码脚本
 
@@ -72,19 +69,11 @@ public class Circle {
         //顶点坐标数据的初始化================end============================
 
         // 三角形构造索引数据初始化==========begin==========================
-        byte indices[] ={//创建索引数组
-                0,1,2,
-                0,2,3,
-                0,3,4,
-                0,4,5,
-                0,5,6,
-                0,6,7,
-                0,7,8,
-                0,8,9,
-                0,9,10,
-                0,10,1
-        };
-        iCount = indices.length;//索引数组的长度
+        iCount = vCount;
+        byte indices[] = new byte[iCount];
+        for(int i=0; i<iCount; i++){
+            indices[i] = (byte) i;
+        }
 
         // 创建三角形构造索引数据缓冲
         mIndexBuffer = ByteBuffer.allocateDirect(indices.length);
@@ -121,15 +110,20 @@ public class Circle {
     //初始化着色器
     public void initShader(MySurfaceView mv) {
         //加载顶点着色器的脚本内容
-        mVertexShader = ShaderUtil.loadFromAssetsFile("vertex.sh", mv.getResources());
+        mVertexShader = ShaderUtil.loadFromAssetsFile("sample5_11/vertex.sh", mv.getResources());
         //加载片元着色器的脚本内容
-        mFragmentShader = ShaderUtil.loadFromAssetsFile("frag.sh", mv.getResources());
+        mFragmentShader = ShaderUtil.loadFromAssetsFile("sample5_11/frag.sh", mv.getResources());
         //基于顶点着色器与片元着色器创建程序
         mProgram = ShaderUtil.createProgram(mVertexShader, mFragmentShader);
         //获取程序中顶点位置属性引用id
-        maPositionHandle = GLES30.glGetAttribLocation(mProgram, "aPosition");
+//        maPositionHandle = GLES30.glGetAttribLocation(mProgram, "aPosition");
         //获取程序中顶点颜色属性引用id
-        maColorHandle = GLES30.glGetAttribLocation(mProgram, "aColor");
+//        maColorHandle = GLES30.glGetAttribLocation(mProgram, "aColor");
+        //把顶点位置属性变量索引与顶点着色器中的变量名进行绑定
+        GLES30.glBindAttribLocation(mProgram, 1, "aPosition");
+        //把顶点颜色属性变量索引与顶点着色器中的变量名进行绑定
+        GLES30.glBindAttribLocation(mProgram, 2, "aColor");
+
         //获取程序中总变换矩阵引用id
         muMVPMatrixHandle = GLES30.glGetUniformLocation(mProgram, "uMVPMatrix");
     }
@@ -142,7 +136,7 @@ public class Circle {
         //将顶点位置数据送入渲染管线
         GLES30.glVertexAttribPointer
                 (
-                        maPositionHandle,
+                        1,
                         3,
                         GLES30.GL_FLOAT,
                         false,
@@ -152,7 +146,7 @@ public class Circle {
         //将顶点颜色数据送入渲染管线
         GLES30.glVertexAttribPointer
                 (
-                        maColorHandle,
+                        2,
                         4,
                         GLES30.GL_FLOAT,
                         false,
@@ -160,14 +154,17 @@ public class Circle {
                         mColorBuffer
                 );
         //启用顶点位置数据数组
-        GLES30.glEnableVertexAttribArray(maPositionHandle);
+        GLES30.glEnableVertexAttribArray(1);
         //启用顶点颜色数据数组
-        GLES30.glEnableVertexAttribArray(maColorHandle);
+        GLES30.glEnableVertexAttribArray(2);
         //绘制圆
 //        GLES30.glDrawArrays(GLES30.GL_TRIANGLE_FAN, 0, vCount); //采用三角形扇面方式绘制
         //用索引法绘制图形
 //        GLES30.glDrawElements(GLES30.GL_TRIANGLES,iCount,GLES30.GL_UNSIGNED_BYTE,mIndexBuffer);
         //用索引法绘制图形
-        GLES30.glDrawRangeElements(GLES30.GL_TRIANGLES,0,30,iCount,GLES30.GL_UNSIGNED_BYTE,mIndexBuffer);
+//        GLES30.glDrawRangeElements(GLES30.GL_TRIANGLES,0,30,iCount,GLES30.GL_UNSIGNED_BYTE,mIndexBuffer);
+        // 绘制图形
+        GLES30.glDrawElements(GLES30.GL_TRIANGLE_FAN, iCount,
+                GLES30.GL_UNSIGNED_BYTE, mIndexBuffer);//用索引法绘制图形
     }
 }
