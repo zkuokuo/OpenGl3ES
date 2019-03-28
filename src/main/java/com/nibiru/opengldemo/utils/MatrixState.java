@@ -15,7 +15,43 @@ public class MatrixState {
     //摄像机位置朝向参数矩阵
     private static float[] mVMatrix = new float[16];
     //最终的总变换矩阵
-    private static float[] mMVPMatrix;
+    private static float[] currMatrix;//当前变换矩阵
+    static float[] mMVPMatrix = new float[16];//总变换矩阵
+    static float[][] mStack = new float[10][16];//用于保存变换矩阵的栈
+    static int stackTop = -1;//栈顶索引
+
+    /**
+     * 产生无任何变换的初始化矩阵
+     */
+    public static void setInitStack() {
+        currMatrix = new float[16];
+        Matrix.setRotateM(currMatrix, 0, 0, 1, 0, 0);
+    }
+
+    /**
+     * 将当前变换矩阵存入栈中
+     */
+    public static void pushMatrix() {
+        stackTop++;//栈顶索引加1
+        for (int i = 0; i < 16; i++) {
+            mStack[stackTop][i] = currMatrix[i];//当前变换矩阵中的各元素入栈
+        }
+    }
+
+    /**
+     * 从栈顶取出变换矩阵
+     */
+    public static void popMatrix() {
+        for (int i = 0; i < 16; i++) {
+            currMatrix[i] = mStack[stackTop][i]; //栈顶矩阵元素进当前变换矩阵
+        }
+        stackTop--;//栈顶索引减1
+    }
+
+    //沿X、Y、Z轴方向进行平移变换的方法
+    public static void translate(float x, float y, float z) {
+        Matrix.translateM(currMatrix, 0, x, y, z);
+    }
 
     /**
      * 设置摄像机的方法
@@ -78,11 +114,29 @@ public class MatrixState {
      * 获取具体物体的总变换矩阵
      * 生成物体总变换矩阵的方法
      */
-    public static float[] getFinalMatrix(float[] spec) {
-        mMVPMatrix = new float[16];   //创建用来存放最终变换矩阵的数组
-        Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, spec, 0);   //将摄像机矩阵乘以变换矩阵
+    public static float[] getFinalMatrix(float[] gec) {
+        //摄像机矩阵乘以变换矩阵
+        Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, gec, 0);
         //将投影矩阵乘以上一步的结果矩阵得到最终变换矩阵
         Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
         return mMVPMatrix;
+    }
+
+    /**
+     * 获取具体物体的总变换矩阵
+     * 生成物体总变换矩阵的方法
+     */
+    public static float[] getFinalMatrix() {
+        //摄像机矩阵乘以变换矩阵
+        Matrix.multiplyMM(mMVPMatrix, 0, mVMatrix, 0, currMatrix, 0);
+        //将投影矩阵乘以上一步的结果矩阵得到最终变换矩阵
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mMVPMatrix, 0);
+        return mMVPMatrix;
+    }
+
+
+    //获取具体物体的变换矩阵
+    public static float[] getMMatrix() {
+        return currMatrix;
     }
 }
