@@ -2,6 +2,10 @@ package com.nibiru.opengldemo.utils;
 
 import android.opengl.Matrix;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+
 /**
  * 作者:dick
  * 公司:nibiru
@@ -19,6 +23,9 @@ public class MatrixState {
     static float[] mMVPMatrix = new float[16];//总变换矩阵
     static float[][] mStack = new float[10][16];//用于保存变换矩阵的栈
     static int stackTop = -1;//栈顶索引
+    public static FloatBuffer cameraFB;
+    public static FloatBuffer lightPositionFBSun;
+    public static float[] lightLocationSun=new float[]{0,0,0};//太阳定位光光源位置
 
     /**
      * 产生无任何变换的初始化矩阵
@@ -78,25 +85,45 @@ public class MatrixState {
     /**
      * 设置摄像机的方法
      */
-    public static void setCamera(
-            float cx,
-            float cy,
-            float cz,
-            float tx,
-            float ty,
-            float tz,
-            float upx,
-            float upy,
-            float upz
-    ) {
-        Matrix.setLookAtM(
-                mVMatrix,  //存储生成矩阵元素的float[]类型数组
-                0,             //填充起始偏移量
-                cx, cy, cz,      //摄像机位置的X、Y、Z坐标
-                tx, ty, tz,      //观察目标点X、Y、Z坐标
-                upx, upy, upz    //up向量在X、Y、Z轴上的分量
-        );
+    //设置摄像机
+    public static void setCamera
+    (
+            float cx,	//摄像机位置x
+            float cy,   //摄像机位置y
+            float cz,   //摄像机位置z
+            float tx,   //摄像机目标点x
+            float ty,   //摄像机目标点y
+            float tz,   //摄像机目标点z
+            float upx,  //摄像机UP向量X分量
+            float upy,  //摄像机UP向量Y分量
+            float upz   //摄像机UP向量Z分量
+    )
+    {
+        Matrix.setLookAtM
+                (
+                        mVMatrix,
+                        0,
+                        cx,
+                        cy,
+                        cz,
+                        tx,
+                        ty,
+                        tz,
+                        upx,
+                        upy,
+                        upz
+                );
 
+        float[] cameraLocation=new float[3];//摄像机位置
+        cameraLocation[0]=cx;
+        cameraLocation[1]=cy;
+        cameraLocation[2]=cz;
+
+        ByteBuffer llbb = ByteBuffer.allocateDirect(3*4);
+        llbb.order(ByteOrder.nativeOrder());//设置字节顺序
+        cameraFB=llbb.asFloatBuffer();
+        cameraFB.put(cameraLocation);
+        cameraFB.position(0);
     }
 
     /**
@@ -160,5 +187,17 @@ public class MatrixState {
     //获取具体物体的变换矩阵
     public static float[] getMMatrix() {
         return currMatrix;
+    }
+    //设置太阳光源位置的方法
+    public static void setLightLocationSun(float x,float y,float z)
+    {
+        lightLocationSun[0]=x;
+        lightLocationSun[1]=y;
+        lightLocationSun[2]=z;
+        ByteBuffer llbb = ByteBuffer.allocateDirect(3*4);
+        llbb.order(ByteOrder.nativeOrder());//设置字节顺序
+        lightPositionFBSun=llbb.asFloatBuffer();
+        lightPositionFBSun.put(lightLocationSun);
+        lightPositionFBSun.position(0);
     }
 }

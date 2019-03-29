@@ -14,4 +14,7 @@ public class Constant
 	public static final int GL_LINE_LOOP = 3;
 
 	public static int CURR_DRAW_MODE = 0;//当前绘制方式
+
+	//旋转地月系线程的工作标志位
+	public static boolean threadFlag=true;
 }
