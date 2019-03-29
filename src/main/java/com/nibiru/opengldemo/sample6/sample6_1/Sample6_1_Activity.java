@@ -1,4 +1,4 @@
-package com.nibiru.opengldemo.sample6_1;
+package com.nibiru.opengldemo.sample6.sample6_1;
 
 import android.app.Activity;
 import android.os.Bundle;
