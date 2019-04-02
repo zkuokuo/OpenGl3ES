@@ -26,6 +26,8 @@ public class MatrixState {
     public static FloatBuffer cameraFB;
     public static FloatBuffer lightPositionFBSun;
     public static float[] lightLocationSun = new float[]{0, 0, 0};//太阳定位光光源位置
+    public static float[] lightLocation=new float[]{0,0,0};//定位光光源位置
+    public static FloatBuffer lightPositionFB;
 
     /**
      * 产生无任何变换的初始化矩阵
@@ -198,5 +200,18 @@ public class MatrixState {
         lightPositionFBSun = llbb.asFloatBuffer();
         lightPositionFBSun.put(lightLocationSun);
         lightPositionFBSun.position(0);
+    }
+
+    //设置灯光位置的方法
+    public static void setLightLocation(float x,float y,float z)
+    {
+        lightLocation[0]=x;
+        lightLocation[1]=y;
+        lightLocation[2]=z;
+        ByteBuffer llbb = ByteBuffer.allocateDirect(3*4);
+        llbb.order(ByteOrder.nativeOrder());//设置字节顺序
+        lightPositionFB=llbb.asFloatBuffer();
+        lightPositionFB.put(lightLocation);
+        lightPositionFB.position(0);
     }
 }
