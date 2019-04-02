@@ -1,4 +1,4 @@
-package com.nibiru.opengldemo.sample9;
+package com.nibiru.opengldemo.sample9.sample9_1;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
