@@ -102,6 +102,7 @@ public class Earth {
         mVertexBuffer = vbb.asFloatBuffer();//转换为float型缓冲
         mVertexBuffer.put(vertices);//向缓冲区中放入顶点数据
         mVertexBuffer.position(0);//设置缓冲区起始位置
+
         //将alTexCoor中的纹理坐标值转存到一个float数组中
         float[] texCoor = generateTexCoor(//获取切分整图的纹理数组
                 (int) (360 / angleSpan), //纹理图切分的列数
@@ -187,8 +188,10 @@ public class Earth {
         //绑定纹理
         GLES30.glActiveTexture(GLES30.GL_TEXTURE0);
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, texId);   //白天纹理
+
         GLES30.glActiveTexture(GLES30.GL_TEXTURE1);
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, texIdNight);  //黑夜纹理
+
         GLES30.glUniform1i(uDayTexHandle, 0);//通过引用指定白天纹理
         GLES30.glUniform1i(uNightTexHandle, 1);  //通过引用指定黑夜纹理
         //以三角形方式执行绘制
