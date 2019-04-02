@@ -7,12 +7,16 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.view.MotionEvent;
+
 import com.nibiru.opengldemo.R;
 import com.nibiru.opengldemo.utils.MatrixState;
+
 import java.io.IOException;
 import java.io.InputStream;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
 import static com.nibiru.opengldemo.utils.Constant.ratio;
 import static com.nibiru.opengldemo.utils.Constant.threadFlag;
 
