@@ -17,4 +17,7 @@ public class Constant
 
 	//旋转地月系线程的工作标志位
 	public static boolean threadFlag=true;
+
+	public static int SCREEN_WIDTH;
+	public static int SCREEN_HEIGHT;
 }
