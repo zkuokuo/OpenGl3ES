@@ -1,4 +1,4 @@
-package com.nibiru.opengldemo.sample10.sample10_1b;
+package com.nibiru.opengldemo.sample10.sample10_4;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
@@ -13,7 +13,7 @@ import android.view.WindowManager;
  * 描述:
  */
 
-public class Sample10_1b_Activity extends Activity {
+public class Sample10_4_Activity extends Activity {
     private MySurfaceView mGLSurfaceView;
 
     @Override
@@ -25,6 +25,7 @@ public class Sample10_1b_Activity extends Activity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         //设置为横屏模式
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         //初始化GLSurfaceView
         mGLSurfaceView = new MySurfaceView(this);
         setContentView(mGLSurfaceView);
